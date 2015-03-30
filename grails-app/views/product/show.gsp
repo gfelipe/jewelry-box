@@ -53,7 +53,7 @@
 				<g:if test="${productInstance?.picture}">
 				<li class="fieldcontain">
 					<span id="picture-label" class="property-label"><g:message code="product.picture.label" default="Picture" /></span>
-					
+					<img src="data:image/png;base64, ${productInstance?.picture.encodeAsBase64()}" alt="${productInstance?.name}" />;
 				</li>
 				</g:if>
 			

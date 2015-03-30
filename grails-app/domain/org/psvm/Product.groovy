@@ -10,6 +10,10 @@ class Product {
     Integer stockQuantity
     byte[] picture
 
+    static constraints = {
+        picture(maxSize: 1024 * 1024)
+    }
+
     enum ProductType {
 
         NECKLACE("Colar"),

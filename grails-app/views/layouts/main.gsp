@@ -14,6 +14,11 @@
 		<link rel="apple-touch-icon" sizes="114x114" href="${assetPath(src: 'apple-touch-icon-retina.png')}">
   		<asset:stylesheet src="application.css"/>
 		<asset:javascript src="application.js"/>
+
+    <link rel="stylesheet" type="text/css" href="${resource(dir:'css', file: 'autocomplete.css')}">
+
+    <script src="${resource(dir:'js', file:'jquery-2.1.3.min.js')}"></script>
+    <script src="${resource(dir:'js', file:'jquery.autocomplete.min.js')}"></script>
 		<g:layoutHead/>
 	</head>
 	<body>

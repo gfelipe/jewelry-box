@@ -23,14 +23,16 @@
 			<table>
 			<thead>
 					<tr>
-					
+
+                        <g:sortableColumn property="id" title="#" />
+
 						<g:sortableColumn property="amount" title="${message(code: 'customerOrder.amount.label', default: 'Amount')}" />
 					
 						<th><g:message code="customerOrder.customer.label" default="Customer" /></th>
 					
 						<g:sortableColumn property="installment" title="${message(code: 'customerOrder.installment.label', default: 'Installment')}" />
 					
-						<g:sortableColumn property="paidAmount" title="${message(code: 'customerOrder.paidAmount.label', default: 'Paid Amount')}" />
+						<g:sortableColumn property="totalPaid" title="${message(code: 'customerOrder.totalPaid.label', default: 'Paid Amount')}" />
 					
 						<g:sortableColumn property="purchaseDate" title="${message(code: 'customerOrder.purchaseDate.label', default: 'Purchase Date')}" />
 					
@@ -40,13 +42,15 @@
 				<g:each in="${customerOrderInstanceList}" status="i" var="customerOrderInstance">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 					
-						<td><g:link action="show" id="${customerOrderInstance.id}">${fieldValue(bean: customerOrderInstance, field: "amount")}</g:link></td>
-					
-						<td>${fieldValue(bean: customerOrderInstance, field: "customer")}</td>
+						<td><g:link action="show" id="${customerOrderInstance.id}">${customerOrderInstance.id}</g:link></td>
+
+                        <td>${fieldValue(bean: customerOrderInstance, field: "amount")}</td>
+
+						<td><g:link controller="customer" action="show" id="${customerOrderInstance.customer.id}">${fieldValue(bean: customerOrderInstance, field: "customer.name")}</g:link></td>
 					
 						<td>${fieldValue(bean: customerOrderInstance, field: "installment")}</td>
 					
-						<td>${fieldValue(bean: customerOrderInstance, field: "paidAmount")}</td>
+						<td>${fieldValue(bean: customerOrderInstance, field: "totalPaid")}</td>
 					
 						<td><g:formatDate date="${customerOrderInstance.purchaseDate}" /></td>
 					

@@ -1,6 +1,7 @@
 package org.psvm
 
-
+import grails.converters.JSON
+import grails.web.JSONBuilder
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
@@ -90,6 +91,33 @@ class ProductController {
             }
             '*'{ render status: NO_CONTENT }
         }
+    }
+
+    def autocomplete() {
+        log.error("entrei no autocomplete. params: $params")
+
+        List<Product> productList = Product.createCriteria().list(){
+            or{
+                ilike('name', "%${params.query?.toUpperCase()}%")
+                ilike('code', "%${params.query?.toUpperCase()}%")
+            }
+        }
+
+        JSONBuilder jSON = new JSONBuilder ()
+
+        JSON json = jSON.build {
+            query = 'Unit'
+            suggestions = array {
+                productList.each { product ->
+                    _ {
+                        value = product.name
+                        data = product
+                    }
+                }
+            }
+        }
+
+        render json
     }
 
     protected void notFound() {
