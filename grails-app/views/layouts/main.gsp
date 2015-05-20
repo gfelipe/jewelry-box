@@ -12,17 +12,36 @@
 		<link rel="shortcut icon" href="${assetPath(src: 'favicon.ico')}" type="image/x-icon">
 		<link rel="apple-touch-icon" href="${assetPath(src: 'apple-touch-icon.png')}">
 		<link rel="apple-touch-icon" sizes="114x114" href="${assetPath(src: 'apple-touch-icon-retina.png')}">
-  		<asset:stylesheet src="application.css"/>
-		<asset:javascript src="application.js"/>
 
     <link rel="stylesheet" type="text/css" href="${resource(dir:'css', file: 'autocomplete.css')}">
+    %{--
+    <link rel="stylesheet" type="text/css" href="${resource(dir:'css', file: 'bootstrap.min.css')}">
+    <script src="${resource(dir:'js', file:'bootstrap.min.js')}"></script>
+
+    --}%
+
+    <asset:stylesheet src="application.css"/>
+    <asset:javascript src="application.js"/>
 
     <script src="${resource(dir:'js', file:'jquery-2.1.3.min.js')}"></script>
     <script src="${resource(dir:'js', file:'jquery.autocomplete.min.js')}"></script>
-		<g:layoutHead/>
+
+
+    <g:layoutHead/>
 	</head>
 	<body>
-		<div id="grailsLogo" role="banner"><a href="http://grails.org"><asset:image src="grails_logo.png" alt="Grails"/></a></div>
+		<div id="grailsLogo" role="banner"><a href="/jewelsApp"><asset:image src="grails_logo.png" alt="Grails"/></a></div>
+        <div class="nav" role="navigation">
+            <ul>
+                <li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
+
+                <g:each var="c" in="${grailsApplication.controllerClasses.sort { it.fullName } }">
+                    <g:if test="${!(c.name in ['Assets', 'Dbdoc'])}">
+                        <li class="controller"><g:link controller="${c.logicalPropertyName}"><g:message code="${c.name}.label"/></g:link></li>
+                    </g:if>
+                </g:each>
+            </ul>
+        </div>
 		<g:layoutBody/>
 		<div class="footer" role="contentinfo"></div>
 		<div id="spinner" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Loading&hellip;"/></div>

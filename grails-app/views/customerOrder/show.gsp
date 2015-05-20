@@ -91,6 +91,24 @@
                     </li>
                 </g:if>
 
+                <g:if test="${customerOrderInstance?.products}">
+                    <li class="fieldcontain">
+                        <span id="products-label" class="property-label"><g:message code="customerOrder.products.label" default="Produtos" /></span>
+
+                        <div style="display: inline-block;">
+                            <br/>
+                            <g:each in="${customerOrderInstance.products}" var="p">
+                                <ul>
+                                    <li>
+                                        Data: <g:formatDate date="${p?.dateCreated}" type="date" /><br/>
+                                        Valor: ${p.amount}
+                                    </li>
+                                </ul>
+                            </g:each>
+                        </div>
+                    </li>
+                </g:if>
+
 			</ol>
 			<g:form url="[resource:customerOrderInstance, action:'delete']" method="DELETE">
 				<fieldset class="buttons">

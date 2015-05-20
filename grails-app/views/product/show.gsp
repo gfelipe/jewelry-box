@@ -79,7 +79,7 @@
 				<li class="fieldcontain">
 					<span id="type-label" class="property-label"><g:message code="product.type.label" default="Type" /></span>
 					
-						<span class="property-value" aria-labelledby="type-label"><g:fieldValue bean="${productInstance}" field="type"/></span>
+						<span class="property-value" aria-labelledby="type-label"><g:fieldValue bean="${productInstance}" field="type.friendlyName"/></span>
 					
 				</li>
 				</g:if>

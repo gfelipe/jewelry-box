@@ -30,15 +30,13 @@ class CustomerOrderController {
 
     @Transactional
     def save(CustomerOrder customerOrderInstance) {
+
         if (customerOrderInstance == null) {
             notFound()
             return
         }
 
-        if (customerOrderInstance.hasErrors()) {
-            respond customerOrderInstance.errors, view:'create'
-            return
-        }
+        calculateOrderAmount(customerOrderInstance, params.productId)
 
         def firstIncome = params.firstIncome ? params.firstIncome as BigDecimal : null
 
@@ -53,7 +51,12 @@ class CustomerOrderController {
 
         }
 
-        customerOrderInstance.save flush:true
+        if (customerOrderInstance.hasErrors()) {
+            respond customerOrderInstance.errors, view:'create'
+            return
+        }
+
+        customerOrderInstance.save(flush:true, failOnError: true)
 
         request.withFormat {
             form multipartForm {
@@ -62,6 +65,30 @@ class CustomerOrderController {
             }
             '*' { respond customerOrderInstance, [status: CREATED] }
         }
+    }
+
+    private void calculateOrderAmount(CustomerOrder customerOrder, def productId) {
+
+        customerOrder.amount = 0.0
+
+        if (productId instanceof String) {
+
+            Product product = Product.get(productId)
+
+            customerOrder.amount = product.defaultPrice
+
+        } else {
+
+            List<Product> products = Product.findAllById(productId)
+
+            products.each { product ->
+
+                customerOrder.amount += product.defaultPrice
+
+            }
+
+        }
+
     }
 
     def edit(CustomerOrder customerOrderInstance) {
